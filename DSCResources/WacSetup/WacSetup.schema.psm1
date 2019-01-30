@@ -62,7 +62,7 @@ Configuration WacSetup
   
     Node localhost
     {
-        Package WacInstaller
+        Package 'WacInstaller'
         {
             ProductId     = $ProductId
             InstallerPath = $InstallerPath
