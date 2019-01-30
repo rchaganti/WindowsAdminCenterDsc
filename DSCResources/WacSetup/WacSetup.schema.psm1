@@ -1,3 +1,17 @@
+#region localizeddata
+if (Test-Path "${PSScriptRoot}\${PSUICulture}")
+{
+    Import-LocalizedData -BindingVariable LocalizedData -filename WacSetup.psd1 `
+                         -BaseDirectory "${PSScriptRoot}\${PSUICulture}"
+} 
+else
+{
+    #fallback to en-US
+    Import-LocalizedData -BindingVariable LocalizedData -filename WacSetup.psd1 `
+                         -BaseDirectory "${PSScriptRoot}\en-US"
+}
+#endregion
+
 Configuration WacSetup
 {
     [CmdletBinding()]
@@ -17,7 +31,7 @@ Configuration WacSetup
 
         [Parameter()]
         [String]
-        $ProductId = '{7019BE31-3389-46FB-A077-B813D53C1266}',
+        $ProductId = '{738640D5-FED5-4232-91C3-176903ADFF94}',
         
         [Parameter()]
         [String]
@@ -29,43 +43,49 @@ Configuration WacSetup
 
     if ($Ensure -eq 'Present')
     {
+        Write-Verbose -Message $localizedData.InstallWAC
+
         #If a custom certificate thumbprint is provided, it must exist on the local system.
         if ($CertificateThumbprint -ne 'SelfSigned')
         {
+            Write-Verbose -Message ($localizedData.CheckThumbprint -f $CertificateThumbprint)
             $cert = (Get-ChildItem -Path Cert:\LocalMachine\My).Where({$_.Thumbprint -eq $CertificateThumbprint})
             if ($cert)
             {
                 if (-not ($cert.EnhancedKeyUsageList.FriendlyName -eq 'Server Authentiation'))
                 {
-                    throw "Certificate represented by $CertificateThumbprint is not a valid certificate for the deployment."
+                    throw ($localizedData.InvalidCert -f {0})
                 }
                 else
                 {
-                    $arguments = "/qn /l*v c:\windows\temp\wac.install.log SME_PORT=$Port SME_THUMBPRINT=$CertificateThumbprint"    
+                    Write-Verbose -Message ($localizedData.UsingCert -f $CertificateThumbprint)
+                    $arguments = "/qn /l*v c:\windows\temp\wac.install.log SME_PORT=$Port SME_THUMBPRINT=$CertificateThumbprint"
                 }
             }
             else
             {
-                throw "$CertificateThumbprint does not seem to be valid."
+                throw ($localizedData.NoCertFound -f $CertificateThumbprint)
             }
         }
         else
         {
+            Write-Verbose -Message $localizedData.UsingSelfSigned
             $arguments = "/qn /l*v c:\windows\temp\wac.install.log SME_PORT=$Port SSL_CERTIFICATE_OPTION=generate"    
         }
     }
     else
     {
-        #MSI uninstall arguments
-        $arguments = ''
+        Write-Verbose -Message $localizedData.UninstallWAC
+        $arguments = '/l*v c:\windows\temp\wac.uninstall.log'
     }
   
     Node localhost
     {
         Package 'WacInstaller'
         {
+            Name          = 'Windows Admin Center'
             ProductId     = $ProductId
-            InstallerPath = $InstallerPath
+            Path          = $InstallerPath
             Arguments     = $arguments
             Ensure        = $Ensure
         }

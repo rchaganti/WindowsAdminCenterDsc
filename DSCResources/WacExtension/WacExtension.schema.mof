@@ -1,0 +1,10 @@
+[ClassVersion("1.0.0.0"), FriendlyName("WacExtension")]
+class WacExtension : OMI_BaseResource
+{
+    [Key] String ExtensionId;
+    [Required] String GatewayEndpoint;
+    [Write] String FeedPath;
+    [Write] String Version;  
+    [Write,EmbeddedInstance("MSFT_Credential")] string Credential;
+    [Write, ValueMap{"Present","Absent"}, Values{"Present","Absent"}] String Ensure;
+};
