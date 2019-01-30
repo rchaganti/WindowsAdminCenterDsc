@@ -1,13 +1,13 @@
 #region localizeddata
 if (Test-Path "${PSScriptRoot}\${PSUICulture}")
 {
-    Import-LocalizedData -BindingVariable LocalizedData -filename WacFeed.psd1 `
+    Import-LocalizedData -BindingVariable LocalizedData -filename WacExtension.psd1 `
                          -BaseDirectory "${PSScriptRoot}\${PSUICulture}"
 } 
 else
 {
     #fallback to en-US
-    Import-LocalizedData -BindingVariable LocalizedData -filename WacFeed.psd1 `
+    Import-LocalizedData -BindingVariable LocalizedData -filename WacExtension.psd1 `
                          -BaseDirectory "${PSScriptRoot}\en-US"
 }
 #endregion
