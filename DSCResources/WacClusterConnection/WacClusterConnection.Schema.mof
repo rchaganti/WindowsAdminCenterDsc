@@ -1,0 +1,8 @@
+[ClassVersion("1.0.0.0"), FriendlyName("WacClusterConnection")]
+class WacClusterConnection : OMI_BaseResource
+{
+    [Key] String ClusterName;
+    [Required] String GatewayEndpoint;
+    [Write,EmbeddedInstance("MSFT_Credential")] string Credential;
+    [Write, ValueMap{"Present","Absent"}, Values{"Present","Absent"}] String Ensure;
+};
