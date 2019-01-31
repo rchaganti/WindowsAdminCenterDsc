@@ -112,7 +112,7 @@ function Set-TargetResource
 
     if($($extension.Id) -contains $ExtensionId)
     {
-        if ($extention.Where({$_.Id -eq $ExtensionId}).Status -eq 'Available')
+        if ($extension.Where({$_.Id -eq $ExtensionId}).Status -eq 'Available')
         {
             $extensionAvailable = $true
         }
@@ -205,7 +205,7 @@ function Test-TargetResource
 
     if($($extension.Id) -contains $ExtensionId)
     {
-        if ($extention.Where({$_.Id -eq $ExtensionId}).Status -eq 'Available')
+        if ($extension.Where({$_.Id -eq $ExtensionId}).Status -eq 'Available')
         {
             $extensionAvailable = $true
         }
