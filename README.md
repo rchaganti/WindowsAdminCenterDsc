@@ -15,4 +15,4 @@ This module contains a set of resources to install Windows Admin Center (WAC) an
 
 ![](https://i.imgur.com/FOlttCi.png)
 
-For complete documentation, see <link>.
+For complete documentation, see https://windowsadmincenterdsc.readthedocs.io/en/latest/.
