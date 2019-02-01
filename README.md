@@ -2,7 +2,7 @@
 
 > **Note**: This works only with Windows Admin Center 1812 insider preview and above.
 
-This module contains a set of resources to install Windows Admin Center (WAC) and configure WAC feeds and extensions. 
+This module contains a set of resources to install Windows Admin Center (WAC) and configure WAC feeds, extensions, and connections.
 
 | DSC Resource Name    | Description                                                  |
 | -------------------- | ------------------------------------------------------------ |

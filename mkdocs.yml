@@ -3,10 +3,9 @@ repo_url: https://github.com/rchaganti/WindowsAdminCenterDsc
 theme: readthedocs
 pages:
   - Home: index.md
-  - DSC Resources:
-    - WacSetup: WacSetup.md
-    - WacFeed: WacFeed.md
-    - WacExtension: WacExtension.md
-    - WacServerConnection: WacServerConnection.md
-    - WacClusterConnection: WacClusterConnection.md
-    - WacHciConnection: WacHciConnection.md
+  - WacSetup: WacSetup.md
+  - WacFeed: WacFeed.md
+  - WacExtension: WacExtension.md
+  - WacServerConnection: WacServerConnection.md
+  - WacClusterConnection: WacClusterConnection.md
+  - WacHciConnection: WacHciConnection.md
