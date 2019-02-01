@@ -1,13 +1,13 @@
 #region localizeddata
 if (Test-Path "${PSScriptRoot}\${PSUICulture}")
 {
-    Import-LocalizedData -BindingVariable LocalizedData -filename WacClusterConnection.psd1 `
+    Import-LocalizedData -BindingVariable LocalizedData -filename WacServerConnection.psd1 `
                          -BaseDirectory "${PSScriptRoot}\${PSUICulture}"
 } 
 else
 {
     #fallback to en-US
-    Import-LocalizedData -BindingVariable LocalizedData -filename WacClusterConnection.psd1 `
+    Import-LocalizedData -BindingVariable LocalizedData -filename WacServerConnection.psd1 `
                          -BaseDirectory "${PSScriptRoot}\en-US"
 }
 #endregion
@@ -22,7 +22,7 @@ function Get-TargetResource
     (
         [Parameter(Mandatory = $true)]
         [System.String]
-        $ClusterName,
+        $ServerName,
 
         [Parameter(Mandatory = $true)]
         [System.String]
@@ -33,7 +33,7 @@ function Get-TargetResource
         $Credential        
     )
     # default connection type for this resource
-    $connectionType = 'msft.sme.connection-type.cluster'
+    $connectionType = 'msft.sme.connection-type.hyper-converged-cluster'
 
     # try loading the WAC connection tools module
     Import-Module "$env:ProgramFiles\windows admin center\PowerShell\Modules\ConnectionTools" -ErrorAction SilentlyContinue
@@ -42,23 +42,23 @@ function Get-TargetResource
         Throw ($localizedData.moduleMissing -f 'ConnectionTools')
     }
 
-    Write-Verbose -Message ($localizedData.CheckConnectionExists -f $ClusterName)
+    Write-Verbose -Message ($localizedData.CheckConnectionExists -f $ServerName)
     $connections = Export-Connection -GatewayEndpoint $GatewayEndpoint -Credential $Credential
     
-    if(($connections.Name -contains $ClusterName) -and ($connections.Where({$_.name -eq $ClusterName}).type -eq $connectionType))
+    if(($connections.Name -contains $ServerName) -and ($connections.Where({$_.name -eq $ServerName}).type -eq $connectionType))
     {        
-        Write-Verbose -Message ($localizedData.ConnectionFound -f $ClusterName)
+        Write-Verbose -Message ($localizedData.ConnectionFound -f $ServerName)
         $Ensure = 'Present'
     }
     else
     {
-        Write-Verbose -Message ($localizedData.ConnectionNotFound -f $ClusterName)
+        Write-Verbose -Message ($localizedData.ConnectionNotFound -f $ServerName)
         $Ensure = 'Absent'
     }
         
     $configuration = @{
         'GatewayEndpoint' = $GatewayEndpoint
-        'ClusterName'     = $ClusterName
+        'ClusterName'     = $ServerName
         'Credential'      = $Credential.GetNetworkCredential().UserName
         'Ensure'          = $Ensure 
     }
@@ -75,7 +75,7 @@ function Set-TargetResource
     (
         [Parameter(Mandatory = $true)]
         [System.String]
-        $ClusterName,
+        $ServerName,
 
         [Parameter(Mandatory = $true)]
         [System.String]
@@ -96,7 +96,7 @@ function Set-TargetResource
     )
 
     # default connection type for this resource
-    $connectionType = 'msft.sme.connection-type.cluster'
+    $connectionType = 'msft.sme.connection-type.hyper-converged-cluster'
 
     # try loading the WAC connection tools module
     Import-Module "$env:ProgramFiles\windows admin center\PowerShell\Modules\ConnectionTools" -ErrorAction SilentlyContinue
@@ -105,7 +105,7 @@ function Set-TargetResource
         Throw ($localizedData.moduleMissing -f 'ConnectionTools')
     }
 
-    Write-Verbose -Message ($localizedData.CheckConnectionExists -f $ClusterName)
+    Write-Verbose -Message ($localizedData.CheckConnectionExists -f $ServerName)
     $connections = Export-Connection -GatewayEndpoint $GatewayEndpoint -Credential $Credential
     
     $hostName = ([System.Net.Dns]::GetHostByName($env:computerName)).hostname
@@ -116,10 +116,10 @@ function Set-TargetResource
 
     if ($Ensure -eq 'Present')
     {
-        if (-not (($connections.Name -contains $ClusterName) -and ($connections.Where({$_.name -eq $ClusterName}).type -eq $connectionType)))
+        if (-not (($connections.Name -contains $ServerName) -and ($connections.Where({$_.name -eq $ServerName}).type -eq $connectionType)))
         {
             $newConnection = [PSCustomObject]@{
-                name = $ClusterName
+                name = $ServerName
                 type = $connectionType
                 tags = $Tags
             }
@@ -135,13 +135,13 @@ function Set-TargetResource
                 Credential = $Credential
             }
 
-            Write-Verbose -Message ($localizedData.AddConnection -f $ClusterName)
+            Write-Verbose -Message ($localizedData.AddConnection -f $ServerName)
             $null = Import-Connection @cmdParams
         }
     }
     else
     {
-        if ((($connections.Name -contains $ClusterName) -and ($connections.Where({$_.name -eq $ClusterName}).type -eq $connectionType)))
+        if ((($connections.Name -contains $ServerName) -and ($connections.Where({$_.name -eq $ServerName}).type -eq $connectionType)))
         {            
             Write-Warning -Message $localizedData.RemoveNotImplemented
         }
@@ -158,7 +158,7 @@ function Test-TargetResource
     (
         [Parameter(Mandatory = $true)]
         [System.String]
-        $ClusterName,
+        $ServerName,
 
         [Parameter(Mandatory = $true)]
         [System.String]
@@ -179,7 +179,7 @@ function Test-TargetResource
     )
 
     # default connection type for this resource
-    $connectionType = 'msft.sme.connection-type.cluster'
+    $connectionType = 'msft.sme.connection-type.hyper-converged-cluster'
 
     # try loading the WAC connection tools module
     Import-Module "$env:ProgramFiles\windows admin center\PowerShell\Modules\ConnectionTools" -ErrorAction SilentlyContinue
@@ -189,25 +189,25 @@ function Test-TargetResource
         Throw ($localizedData.moduleMissing -f 'ConnectionTools')
     }
 
-    Write-Verbose -Message ($localizedData.CheckConnectionExists -f $ClusterName)
+    Write-Verbose -Message ($localizedData.CheckConnectionExists -f $ServerName)
     $connections = Export-Connection -GatewayEndpoint $GatewayEndpoint -Credential $Credential
 
     if ($Ensure -eq 'Present')
     {
-        if ($connections.Name -notcontains $ClusterName)
+        if ($connections.Name -notcontains $ServerName)
         {
-            Write-Verbose -Message ($localizedData.ImportConnection -f $ClusterName)
+            Write-Verbose -Message ($localizedData.ImportConnection -f $ServerName)
             return $false
         }
         else
         {
-            Write-Verbose -Message ($localizedData.ConnectionExists -f $ClusterName)    
+            Write-Verbose -Message ($localizedData.ConnectionExists -f $ServerName)    
             return $true
         }
     }
     else
     {
-        if ((($connections.Name -contains $ClusterName) -and ($connections.Where({$_.name -eq $ClusterName}).type -eq $connectionType)))
+        if ((($connections.Name -contains $ServerName) -and ($connections.Where({$_.name -eq $ServerName}).type -eq $connectionType)))
         {            
             Write-Warning -Message $localizedData.RemoveNotImplemented
             return $true

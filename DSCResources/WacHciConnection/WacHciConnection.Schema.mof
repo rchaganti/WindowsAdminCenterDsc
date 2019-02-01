@@ -1,0 +1,8 @@
+[ClassVersion("1.0.0.0"), FriendlyName("WacHciConnection")]
+class WacHciConnection : OMI_BaseResource
+{
+    [Key] String HciClusterName;
+    [Required] String GatewayEndpoint;
+    [Write,EmbeddedInstance("MSFT_Credential")] string Credential;
+    [Write, ValueMap{"Present","Absent"}, Values{"Present","Absent"}] String Ensure;
+};
