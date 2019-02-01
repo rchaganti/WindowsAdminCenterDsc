@@ -20,11 +20,11 @@ function Get-TargetResource
     [OutputType([System.Collections.Hashtable])]
     param
     (
-        [Parameter(Mandatory)]
+        [Parameter(Mandatory = $true)]
         [System.String]
         $FeedPath,
 
-        [Parameter(Mandatory)]
+        [Parameter(Mandatory = $true)]
         [System.String]
         $GatewayEndpoint     
     )
@@ -66,11 +66,11 @@ function Set-TargetResource
     [CmdletBinding()]
     param
     (
-        [Parameter(Mandatory)]
+        [Parameter(Mandatory = $true)]
         [System.String]
         $FeedPath,
 
-        [Parameter(Mandatory)]
+        [Parameter(Mandatory = $true)]
         [System.String]
         $GatewayEndpoint,
 
@@ -122,11 +122,11 @@ function Test-TargetResource
     [OutputType([System.Boolean])]
     param
     (
-        [Parameter(Mandatory)]
+        [Parameter(Mandatory = $true)]
         [System.String]
         $FeedPath,
 
-        [Parameter(Mandatory)]
+        [Parameter(Mandatory = $true)]
         [System.String]
         $GatewayEndpoint,
 

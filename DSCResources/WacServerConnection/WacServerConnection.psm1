@@ -33,7 +33,7 @@ function Get-TargetResource
         $Credential        
     )
     # default connection type for this resource
-    $connectionType = 'msft.sme.connection-type.hyper-converged-cluster'
+    $connectionType = 'msft.sme.connection-type.server'
 
     # try loading the WAC connection tools module
     Import-Module "$env:ProgramFiles\windows admin center\PowerShell\Modules\ConnectionTools" -ErrorAction SilentlyContinue
@@ -58,7 +58,7 @@ function Get-TargetResource
         
     $configuration = @{
         'GatewayEndpoint' = $GatewayEndpoint
-        'ClusterName'     = $ServerName
+        'ServerName'     = $ServerName
         'Credential'      = $Credential.GetNetworkCredential().UserName
         'Ensure'          = $Ensure 
     }
@@ -96,7 +96,7 @@ function Set-TargetResource
     )
 
     # default connection type for this resource
-    $connectionType = 'msft.sme.connection-type.hyper-converged-cluster'
+    $connectionType = 'msft.sme.connection-type.server'
 
     # try loading the WAC connection tools module
     Import-Module "$env:ProgramFiles\windows admin center\PowerShell\Modules\ConnectionTools" -ErrorAction SilentlyContinue
@@ -179,7 +179,7 @@ function Test-TargetResource
     )
 
     # default connection type for this resource
-    $connectionType = 'msft.sme.connection-type.hyper-converged-cluster'
+    $connectionType = 'msft.sme.connection-type.server'
 
     # try loading the WAC connection tools module
     Import-Module "$env:ProgramFiles\windows admin center\PowerShell\Modules\ConnectionTools" -ErrorAction SilentlyContinue

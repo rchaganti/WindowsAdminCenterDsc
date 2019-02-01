@@ -58,7 +58,7 @@ function Get-TargetResource
         
     $configuration = @{
         'GatewayEndpoint' = $GatewayEndpoint
-        'ClusterName'     = $HciClusterName
+        'HciClusterName'  = $HciClusterName
         'Credential'      = $Credential.GetNetworkCredential().UserName
         'Ensure'          = $Ensure 
     }
