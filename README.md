@@ -1,6 +1,8 @@
 # Windows Admin Center DSC
 
-> **Note**: This works only with Windows Admin Center 1812 insider preview and above.
+[![Documentation Status](http://readthedocs.org/projects/windowsadmincenterdsc/badge/?version=latest)](http://windowsadmincenterdsc.readthedocs.io/en/latest/?badge=latest)
+
+> Note**: This works only with Windows Admin Center 1812 insider preview and above.
 
 This module contains a set of resources to install Windows Admin Center (WAC) and configure WAC feeds, extensions, and connections.
 
