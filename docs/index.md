@@ -14,5 +14,3 @@ This module contains a set of resources to install Windows Admin Center (WAC) an
 | WacClusterConnection | Use this resource to add HCI Cluster for management within WAC. |
 
 ![](https://i.imgur.com/FOlttCi.png)
-
-For complete documentation, see <link>.
